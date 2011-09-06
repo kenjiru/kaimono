@@ -1,5 +1,3 @@
-var noItems = 0;
-
 $('#home').live('pagecreate', function(e){
     // register a swipe left event
     $('body').bind('swipeleft', null);
@@ -20,9 +18,8 @@ $('#availableListPage').live('pagecreate', function(e){
     
     $("#addItemButton").click(function(e){
         var label = $("#newItemInput").val();
-        var id = noItems++;
-        
-        addItem(id, label, true);
+    
+        addItem(label, true);
     });
 });
 
@@ -43,15 +40,18 @@ function initList() {
     }
 }
 
-function addItem(id, label, refresh) {
-    id = "item" + id;
-    var li = $(document.createElement("li")).text(label);
+function addItem(label, refresh) {
+    var img = $(document.createElement("img")).addClass("ui-li-icon ui-icon ui-icon-checkbox-off");
+    var span = $(document.createElement("span")).text(label);
+    var li = $(document.createElement("li")).append(img).append(span);
+    
+    li.click(function(e){
+        $("img", this).toggleClass("ui-icon-checkbox-on");
+    });
     
     $("#availableList").append(li);
     
     if (refresh !== null && refresh === true) {
         $("#availableList").listview('refresh');
     }
-        
-    noItems++;
 }

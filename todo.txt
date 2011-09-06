@@ -1,0 +1,7 @@
+General stuff:
+* navigate between available items list and shopping list
+
+Available items list:
+* add an item
+- delete an item
+- persist the list
