@@ -36,7 +36,7 @@ function initList() {
     var itemsArr = itemsStr.split(",").sort();
     
     for(i=0; i<itemsArr.length; i++) {
-        addItem(i, itemsArr[i]);
+        addItem(itemsArr[i]);
     }
 }
 
