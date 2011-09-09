@@ -1,1 +1,58 @@
-Hello world from static site!
+<!DOCTYPE html> 
+<html> 
+  <head> 
+  <title>Simple Shopping List Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css" /> 
+  <link rel="stylesheet" type="text/css" href="css/app.css" /> 
+  
+  <script src="http://code.jquery.com/jquery.min.js"></script> 
+  <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script> 
+  <script src="js/app.js"></script>
+</head> 
+<body> 
+ 
+<div data-role="page" id="home"> 
+  <div data-role="header">
+    <h1>Simple Shopping List Application</h1>
+  </div> 
+ 
+  <div data-role="content">
+    <a href="#availableListPage" data-transition="slideup" data-role="button">Available list</a>
+    <a href="#shoppingListPage" data-transition="slideup" data-role="button">Shopping list</a>
+    <a href="about-dialog.html" data-transition="slideup" data-rel="dialog" data-role="button">About</a>
+  </div>
+</div>
+
+<div data-role="page" id="availableListPage"> 
+  <div data-role="header">
+    <h1>Available list</h1>
+    <a href="#home" data-transition="slideup" data-role="button">Home</a>
+  </div> 
+ 
+  <div data-role="content">
+    <table id="addItemTable" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><input type="text" id="newItemInput"/></td>
+        <td class="addItemButton"><input type="button" id="addItemButton" value="Add" data-inline="true"/></td>
+      </tr>
+    </table>
+    <ul data-role="listview" data-inset="true" id="availableList"></ul>
+  </div>
+</div>
+
+<div data-role="page" id="shoppingListPage"> 
+  <div data-role="header">
+    <h1>Shopping list</h1>
+    <a href="#home" data-transition="slideup" data-role="button">Home</a>
+  </div> 
+ 
+  <div data-role="content">
+    <h2>Shooping list items.</h2>
+    <ul data-role="listview" data-inset="true" id="availableList"></ul>
+  </div>
+</div>
+
+</body> 
+</html>
