@@ -1,7 +1,10 @@
 General stuff:
-* navigate between available items list and shopping list
+* navigate between the two pages: available items list and shopping list
 
 Available items list:
 * add an item
 - delete an item
 - persist the list
+
+Functionality:
+- create separate components for the available list and the shopping list

@@ -32,8 +32,9 @@ $('#shoppingListPage').live('pagecreate', function(e){
 });
 
 function initList() {
-    var itemsStr = "Paine,Apa,Branza,Fructe,Sapun,Pasta de dinti";
-    var itemsArr = itemsStr.split(",").sort();
+    var itemsStr = "Paine,Apa,Branza,Fructe",
+        itemsArr = itemsStr.split(",").sort(),
+        availableList = $("#availableListNew");
     
     for(i=0; i<itemsArr.length; i++) {
         addItem(itemsArr[i]);
@@ -41,17 +42,11 @@ function initList() {
 }
 
 function addItem(label, refresh) {
-    var img = $(document.createElement("img")).addClass("ui-li-icon ui-icon ui-icon-checkbox-off");
-    var span = $(document.createElement("span")).text(label);
-    var li = $(document.createElement("li")).append(img).append(span);
-    
-    li.click(function(e){
-        $("img", this).toggleClass("ui-icon-checkbox-on");
-    });
-    
-    $("#availableList").append(li);
+    var li = $(document.createElement("li")).append(label);
+     
+    $("#availableListNew").append(li);
     
     if (refresh !== null && refresh === true) {
-        $("#availableList").listview('refresh');
+        $("#availableListNew").availablelist('refresh');
     }
 }
