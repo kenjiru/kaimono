@@ -17,7 +17,8 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
     },
     
     refresh: function() {
-        var li = this.element.children("li"),
+        var that = this,
+            li = this.element.children("li"),
             itemClass = "ui-li ui-li-static ui-body-c ui-li-has-icon",
             iconClass = "ui-li-icon ui-icon ui-icon-checkbox-off ui-li-thumb",
             item, icon;
@@ -31,6 +32,10 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
                 
                 item.click(function(e){
                     $("img", this).toggleClass("ui-icon-checkbox-on");
+                });
+                
+                item.bind("taphold", function(e) {
+                    $(e.currentTarget).remove();
                 });
             }
             
@@ -67,16 +72,25 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
     },
     
     _state_save: function() {
-        var li = this.element.children("li"),
-            strItems = "";
+        var liArr = this.element.children("li"),
+            strAvailable = "",
+            strShopping = "";
         
-        $.each(li, function(index, value){
-            if (index !== 0)
-                strItems += ",";
-            strItems += $(value).text();
+        $.each(liArr, function(index, li){
+            li = $(li);
+            if (strAvailable.length > 0)
+                strAvailable += ",";
+            strAvailable += li.text();
+            
+            if ($("img", li).hasClass("ui-icon-checkbox-on")) {
+                if (strShopping.length > 0)
+                    strShopping += ",";
+                strShopping += li.text();
+            }
         });
         
         $.localStorage.set(this.element.attr("id") + "av", strItems);
+        $.localStorage.set(this.element.attr("id") + "sh", strItems);
     },
     
     _state_restore: function() {
