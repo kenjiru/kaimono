@@ -7,9 +7,6 @@ $('#home').live('pagecreate', function(e){
 });
 
 $('#availableListPage').live('pagecreate', function(e){
-    // initialize the list
-    initList();
-    
     // register a swipe left event
     $('body').bind('swipeleft', function(e) {
         // transition to shopping list page
@@ -18,8 +15,9 @@ $('#availableListPage').live('pagecreate', function(e){
     
     $("#addItemButton").click(function(e){
         var label = $("#newItemInput").val();
-    
         addItem(label, true);
+        
+        $("#availableListNew").availablelist("persist");
     });
 });
 
@@ -31,6 +29,7 @@ $('#shoppingListPage').live('pagecreate', function(e){
     });
 });
 
+/*
 function initList() {
     var itemsStr = "Paine,Apa,Branza,Fructe",
         itemsArr = itemsStr.split(",").sort(),
@@ -40,13 +39,14 @@ function initList() {
         addItem(itemsArr[i]);
     }
 }
+*/
 
 function addItem(label, refresh) {
-    var li = $(document.createElement("li")).append(label);
+    var li = $(document.createElement("li")).text(label);
      
     $("#availableListNew").append(li);
     
     if (refresh !== null && refresh === true) {
-        $("#availableListNew").availablelist('refresh');
+        $("#availableListNew").availablelist("refresh");
     }
 }

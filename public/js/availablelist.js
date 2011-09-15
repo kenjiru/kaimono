@@ -5,8 +5,15 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
     },
     
     _create: function() {
+        var that = this;
+        
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
+        this._state_restore();
         this.refresh();
+        
+        $(window).unload(function(){ 
+            that._state_save();
+        });
     },
     
     refresh: function() {
@@ -57,12 +64,39 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
             .addClass("ui-corner-bottom");
     
         this.element.append(li);
+    },
+    
+    _state_save: function() {
+        var li = this.element.children("li"),
+            strItems = "";
+        
+        $.each(li, function(index, value){
+            if (index !== 0)
+                strItems += ",";
+            strItems += $(value).text();
+        });
+        
+        $.localStorage.set(this.element.attr("id") + "av", strItems);
+    },
+    
+    _state_restore: function() {
+        var strItems = $.localStorage.get(this.element.attr("id") + "av"),
+            that = this,
+            li;
+        
+        if (strItems == null || strItems.length <= 0)
+            return;
+            
+        $.each(strItems.split(","), function(index, value){
+            li = $("<li>").text(value);
+            $(that.element).append(li);
+        });
     }
 });
 
 //auto self-init widgets
 $(document).bind( "pagecreate create", function(e){
-    $($.kaimono.availablelist.prototype.options.initSelector, e.target ).availablelist();
+    $($.kaimono.availablelist.prototype.options.initSelector, e.target).availablelist();
 });
 
 })(jQuery);
