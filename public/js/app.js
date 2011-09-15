@@ -16,6 +16,7 @@ $('#availableListPage').live('pagecreate', function(e){
     $("#addItemButton").click(function(e){
         var label = $("#newItemInput").val();
         addItem(label, true);
+        $("#newItemInput").val("");
         
         $("#availableListNew").availablelist("persist");
     });
@@ -28,18 +29,6 @@ $('#shoppingListPage').live('pagecreate', function(e){
         $.mobile.changePage('#availableListPage', { transition: 'slide', reverse: true});
     });
 });
-
-/*
-function initList() {
-    var itemsStr = "Paine,Apa,Branza,Fructe",
-        itemsArr = itemsStr.split(",").sort(),
-        availableList = $("#availableListNew");
-    
-    for(i=0; i<itemsArr.length; i++) {
-        addItem(itemsArr[i]);
-    }
-}
-*/
 
 function addItem(label, refresh) {
     var li = $(document.createElement("li")).text(label);

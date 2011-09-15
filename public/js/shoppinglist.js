@@ -1,8 +1,8 @@
 (function($, undefined) {
-$.widget("kaimono.availablelist", $.mobile.widget, {
+$.widget("kaimono.shoppinglist", $.mobile.widget, {
     options: {
         persistenceLocation: "kaimono",
-        initSelector: ":jqmData(role='availablelist')"
+        initSelector: ":jqmData(role='shoppinglist')"
     },
     
     _create: function() {
@@ -11,10 +11,11 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
         this._state_restore();
         this.refresh();
-        
+/*        
         $(window).unload(function(){ 
             that._state_save();
         });
+*/
     },
     
     refresh: function() {
@@ -22,7 +23,7 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
             li = this.element.children("li"),
             itemClass = "ui-li ui-li-static ui-body-c ui-li-has-icon",
             iconClass = "ui-li-icon ui-icon ui-icon-checkbox-off ui-li-thumb",
-            item, icon;
+            item;
         
         for (var i=0, l = li.length; i < l; i++ ) {
             item = li.eq(i);
@@ -31,22 +32,9 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
             if (!item.hasClass("ui-li")) {
                 item.addClass(itemClass);
                 
-                item.click(function(e){
-                    $("img", this).toggleClass("ui-icon-checkbox-on");
-                });
-                
                 item.bind("taphold", function(e) {
                     $(e.currentTarget).remove();
                 });
-            }
-            
-            icon = item.children("img");
-            if (icon.length) {
-                icon.addClass(iconClass);
-            } else {
-                // if the item has no icon, create one
-                icon = $("<img />").addClass(iconClass);
-                item.append(icon);
             }
         }
         this._refreshCorners();
@@ -74,30 +62,24 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
     
     _state_save: function() {
         var liArr = this.element.children("li"),
-            strAvailable = "",
             strShopping = "";
         
         $.each(liArr, function(index, li){
             li = $(li);
-            if (strAvailable.length > 0)
-                strAvailable += ",";
-            strAvailable += li.text();
-            
-            if ($("img", li).hasClass("ui-icon-checkbox-on")) {
-                if (strShopping.length > 0)
-                    strShopping += ",";
-                strShopping += li.text();
-            }
+            if (strShopping.length > 0)
+                strShopping += ",";
+            strShopping += li.text();
         });
         
-        $.localStorage.set(this.options.persistenceLocation + "av", strAvailable);
         $.localStorage.set(this.options.persistenceLocation + "sh", strShopping);
     },
     
     _state_restore: function() {
-        var strItems = $.localStorage.get(this.options.persistenceLocation + "av"),
+        var strItems = $.localStorage.get(this.options.persistenceLocation + "sh"),
             that = this,
             li;
+        
+        alert(strItems);
         
         if (strItems == null || strItems.length <= 0)
             return;
@@ -111,7 +93,7 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
 
 //auto self-init widgets
 $(document).bind( "pagecreate create", function(e){
-    $($.kaimono.availablelist.prototype.options.initSelector, e.target).availablelist();
+    $($.kaimono.shoppinglist.prototype.options.initSelector, e.target).shoppinglist();
 });
 
 })(jQuery);
