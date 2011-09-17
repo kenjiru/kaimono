@@ -9,20 +9,18 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         var that = this;
         
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
-        this._state_restore();
+        this.restoreState();
         this.refresh();
-/*        
-        $(window).unload(function(){ 
-            that._state_save();
+       
+        $(window).unload(function(){
+            that.saveState();
         });
-*/
     },
     
     refresh: function() {
         var that = this,
             li = this.element.children("li"),
-            itemClass = "ui-li ui-li-static ui-body-c ui-li-has-icon",
-            iconClass = "ui-li-icon ui-icon ui-icon-checkbox-off ui-li-thumb",
+            itemClass = "ui-li ui-li-static ui-body-c",
             item;
         
         for (var i=0, l = li.length; i < l; i++ ) {
@@ -34,6 +32,7 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
                 
                 item.bind("taphold", function(e) {
                     $(e.currentTarget).remove();
+                    that._refreshCorners();
                 });
             }
         }
@@ -60,7 +59,7 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         this.element.append(li);
     },
     
-    _state_save: function() {
+    saveState: function() {
         var liArr = this.element.children("li"),
             strShopping = "";
         
@@ -74,16 +73,16 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         $.localStorage.set(this.options.persistenceLocation + "sh", strShopping);
     },
     
-    _state_restore: function() {
+    restoreState: function() {
         var strItems = $.localStorage.get(this.options.persistenceLocation + "sh"),
             that = this,
             li;
         
-        alert(strItems);
-        
-        if (strItems == null || strItems.length <= 0)
+        if (strItems === null || strItems.length <= 0)
             return;
-            
+        
+        $(that.element).empty();
+        
         $.each(strItems.split(","), function(index, value){
             li = $("<li>").text(value);
             $(that.element).append(li);

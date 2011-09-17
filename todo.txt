@@ -3,8 +3,13 @@ General stuff:
 
 Available items list:
 * add an item
-- delete an item
-- persist the list
+* delete an item
+- edit an item
+* persist the list
+
+Shopping list:
+* delete an item
+* persist the list
 
 Functionality:
-- create separate components for the available list and the shopping list
+* create separate jquery mobile components for the available list and the shopping list

@@ -1,3 +1,8 @@
+/* Fix page flickering on transition */
+.ui-page {
+    -webkit-backface-visibility: hidden;
+}
+
 #addItemTable {
     width: 100%;
 }
