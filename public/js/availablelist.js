@@ -11,10 +11,11 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
         this.restoreState();
         this.refresh();
-        
+/*        
         $(window).unload(function(){ 
             that.saveState();
         });
+*/
     },
     
     /**
