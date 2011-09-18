@@ -11,11 +11,10 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
         this.restoreState();
         this.refresh();
-/*        
+        
         $(window).unload(function(){ 
             that.saveState();
         });
-*/
     },
     
     /**
@@ -116,7 +115,7 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
             li, img,
             regExp;
             
-        if (strAvailable === null || strAvailable.length <= 0)
+        if (strAvailable === null || strAvailable === undefined)
             return;
         
         if (onlyShopping !== null && onlyShopping === true) {
@@ -134,6 +133,9 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
             });
         } else {
             // restore everything
+            if (strShopping === null || strShopping === undefined)
+                return;
+                
             $.each(strAvailable.split(","), function(index, item){
                 li = $("<li/>").text(item);
                 

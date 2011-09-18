@@ -11,11 +11,10 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
         this.restoreState();
         this.refresh();
-/*       
+       
         $(window).unload(function(){
             that.saveState();
         });
-*/
     },
     
     refresh: function() {
@@ -75,16 +74,16 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
     },
     
     restoreState: function() {
-        var strItems = $.localStorage.get(this.options.persistenceLocation + "sh"),
+        var strShopping = $.localStorage.get(this.options.persistenceLocation + "sh"),
             that = this,
             li;
         
-        if (strItems === null || strItems.length <= 0)
+        if (strShopping === null || strShopping === undefined)
             return;
         
         $(that.element).empty();
         
-        $.each(strItems.split(","), function(index, value){
+        $.each(strShopping.split(","), function(index, value){
             li = $("<li>").text(value);
             $(that.element).append(li);
         });
