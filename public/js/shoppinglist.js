@@ -9,11 +9,11 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         var that = this;
         
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
-        this.restoreState();
+        this.stateRestore();
         this.refresh();
-       
-        $(window).unload(function(){
-            that.saveState();
+        
+        $(window).unload(function(){ 
+            that._stateSave();
         });
     },
     
@@ -59,7 +59,7 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         this.element.append(li);
     },
     
-    saveState: function() {
+    stateSave: function() {
         var liArr = this.element.children("li"),
             strShopping = "";
         
@@ -73,17 +73,17 @@ $.widget("kaimono.shoppinglist", $.mobile.widget, {
         $.localStorage.set(this.options.persistenceLocation + "sh", strShopping);
     },
     
-    restoreState: function() {
-        var strShopping = $.localStorage.get(this.options.persistenceLocation + "sh"),
+    stateRestore: function() {
+        var strItems = $.localStorage.get(this.options.persistenceLocation + "sh"),
             that = this,
             li;
         
-        if (strShopping === null || strShopping === undefined)
+        if (strItems === null || strItems.length <= 0)
             return;
         
         $(that.element).empty();
         
-        $.each(strShopping.split(","), function(index, value){
+        $.each(strItems.split(","), function(index, value){
             li = $("<li>").text(value);
             $(that.element).append(li);
         });

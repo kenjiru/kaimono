@@ -9,18 +9,14 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         var that = this;
         
         this.element.addClass("ui-listview ui-listview-inset ui-corner-all ui-shadow");
-        this.restoreState();
+        this.stateRestore();
         this.refresh();
-        
+ 
         $(window).unload(function(){ 
-            that.saveState();
+            that.stateSave();
         });
     },
     
-    /**
-     * Applies the graphical elements specific to this widget.
-     * No business login here.
-     */
     refresh: function() {
         var that = this,
             li = this.element.children("li"),
@@ -57,9 +53,6 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         this._refreshCorners();
     },
     
-    /**
-     * Refreshes corners when an item is added or removed.
-     */
     _refreshCorners: function() {
         var li = this.element.children("li");
         
@@ -80,10 +73,7 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         this.element.append(li);
     },
     
-    /**
-     * Saves the state of both available items and shopping items lists.
-     */
-    saveState: function() {
+    stateSave: function() {
         var liArr = this.element.children("li"),
             strAvailable = "",
             strShopping = "";
@@ -105,49 +95,34 @@ $.widget("kaimono.availablelist", $.mobile.widget, {
         $.localStorage.set(this.options.persistenceLocation + "sh", strShopping);
     },
     
-    /**
-     * Restores the state of both available items and shopping items lists.
-     */
-    restoreState: function(onlyShopping) {
-        var that = this,
-            strAvailable = $.localStorage.get(this.options.persistenceLocation + "av"),
-            strShopping = $.localStorage.get(this.options.persistenceLocation + "sh"),
-            li, img,
-            regExp;
-            
-        if (strAvailable === null || strAvailable === undefined)
-            return;
+    stateSaveShooping: function() {
+        var liArr = this.element.children("li"),
+            strShopping = "";
         
-        if (onlyShopping !== null && onlyShopping === true) {
-            // restore only shopping state
-            var liArr = this.element.children("li");
+        $.each(liArr, function(index, li){
+            li = $(li);
+            if ($("img", li).hasClass("ui-icon-checkbox-on")) {
+                if (strShopping.length > 0)
+                    strShopping += ",";
+                strShopping += li.text();
+            }
+        });
+        
+        $.localStorage.set(this.options.persistenceLocation + "sh", strShopping);
+    },
+    
+    stateRestore: function() {
+        var strItems = $.localStorage.get(this.options.persistenceLocation + "av"),
+            that = this,
+            li;
+        
+        if (strItems === null || strItems.length <= 0)
+            return;
             
-            $.each(liArr, function(index, li){
-                regExp = new RegExp("(^|,)" + $(li).text() + "(,|$)");
-                
-                if (regExp.test(strShopping)) {
-                    $("img", li).addClass("ui-icon-checkbox-on");
-                } else {
-                    $("img", li).removeClass("ui-icon-checkbox-on");
-                }
-            });
-        } else {
-            // restore everything
-            if (strShopping === null || strShopping === undefined)
-                return;
-                
-            $.each(strAvailable.split(","), function(index, item){
-                li = $("<li/>").text(item);
-                
-                regExp = new RegExp("(^|,)" + $(li).text() + "(,|$)");
-                if (regExp.test(strShopping)) {
-                    img = $("<img/>").addClass("ui-icon-checkbox-on");
-                    li.append(img);
-                }
-                
-                $(that.element).append(li);
-            });
-        }
+        $.each(strItems.split(","), function(index, value){
+            li = $("<li>").text(value);
+            $(that.element).append(li);
+        });
     }
 });
 

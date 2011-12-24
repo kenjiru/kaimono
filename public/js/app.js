@@ -1,17 +1,16 @@
 $(document).ready(function() {
-    $("#addItemButton").click(function(e){
+    $("#addItemButton").click(function(e) {
         var label = $("#newItemInput").val();
         addItem(label, true);
         $("#newItemInput").val("");
-        
         $("#availableListNew").availablelist("persist");
     });
-    
-     $("#newItemInput").live('keypress', function(e) {
+
+    $("#newItemInput").live('keypress', function(e) {
         if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
             $("#addItemButton").click();
         }
-     });
+    });
 });
 
 $('#home').live('pagecreate', function(e){
@@ -30,12 +29,13 @@ $('#availableListPage').live('pagecreate', function(e){
     });
 });
 
-$('#availableListPage').live('pagebeforeshow', function(e){
-    $("#availableListNew").availablelist("restoreState", true);
+$('#availableListPage').live('pageshow', function(e){
+//    $("#availableListNew").availablelist("stateRestore");
+//    $("#availableListNew").availablelist("refresh");
 });
 
 $('#availableListPage').live('pagebeforehide', function(e){
-    $('#availableListNew').availablelist("saveState");
+    $('#availableListNew').availablelist("stateSave");
 });
 
 $('#shoppingListPage').live('pagecreate', function(e){
@@ -47,12 +47,8 @@ $('#shoppingListPage').live('pagecreate', function(e){
 });
 
 $('#shoppingListPage').live('pagebeforeshow', function(e){
-    $("#shoppingList").shoppinglist("restoreState");
+    $("#shoppingList").shoppinglist("stateRestore");
     $("#shoppingList").shoppinglist("refresh");
-});
-
-$('#shoppingListPage').live('pagebeforehide', function(e){
-    $("#shoppingList").shoppinglist("saveState");
 });
 
 function addItem(label, refresh) {
