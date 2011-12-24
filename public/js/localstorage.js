@@ -9,7 +9,7 @@
             get: function(key) {
                 var value = storageEngine[key];
                 
-                if (typeof (value) === undefined)
+                if (typeof (value) === "undefined")
                     value = null;
                     
                 return value;
