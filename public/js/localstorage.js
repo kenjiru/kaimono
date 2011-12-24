@@ -7,7 +7,12 @@
             },
             
             get: function(key) {
-                return storageEngine[key];
+                var value = storageEngine[key];
+                
+                if (typeof (value) === undefined)
+                    value = null;
+                    
+                return value;
             }
         };
     
